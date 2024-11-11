@@ -105,6 +105,7 @@ const MemberForm = ({ person, onSave, onCancel }) => {
 const FamilyNode = ({ person, onAdd, onEdit, onDelete, level = 0 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleEdit = (updatedPerson) => {
     onEdit(person.id, updatedPerson);
@@ -153,7 +154,7 @@ const FamilyNode = ({ person, onAdd, onEdit, onDelete, level = 0 }) => {
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <Dialog>
+              <Dialog open={isAdding} onOpenChange={setIsAdding}>
                 <DialogTrigger asChild>
                   <Button 
                     variant="outline" 
@@ -172,8 +173,9 @@ const FamilyNode = ({ person, onAdd, onEdit, onDelete, level = 0 }) => {
                     <MemberForm
                       onSave={(newPerson) => {
                         onAdd(person.id, newPerson);
+                        setIsAdding(false);
                       }}
-                      onCancel={() => {}}
+                      onCancel={() => setIsAdding(false)}
                     />
                   </div>
                 </DialogContent>
